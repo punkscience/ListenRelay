@@ -82,9 +82,11 @@ func (ui *WindowsUI) Run(cfg *Config) {
 	}
 	defer ui.ni.Dispose()
 
-	if icon, err := walk.NewIconFromFile("icon.ico"); err == nil {
+	// Load icon from resource (ID 1 is standard for rsrc)
+	if icon, err := walk.NewIconFromResourceId(1); err == nil {
 		ui.ni.SetIcon(icon)
 	} else {
+		// Fallback to Shell32 icon
 		if icon, err := walk.NewIconFromSysDLL("shell32.dll", 1); err == nil {
 			ui.ni.SetIcon(icon)
 		}

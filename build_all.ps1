@@ -31,6 +31,9 @@ foreach ($t in $targets) {
     $buildArgs = @("build")
     if ($os -eq "windows") {
         $buildArgs += "-ldflags=-H=windowsgui"
+        Set-Location ListenRelay
+        & rsrc -manifest ListenRelay.exe.manifest -ico icon.ico -o rsrc.syso
+        Set-Location ..
     }
     $buildArgs += @("-o", "../$distDir/$outputName")
 
@@ -38,9 +41,11 @@ foreach ($t in $targets) {
     & go $buildArgs
     if ($LASTEXITCODE -ne 0) {
         Write-Error "Build failed for $os/$arch"
+        if ($os -eq "windows") { Remove-Item rsrc.syso -ErrorAction SilentlyContinue }
         Set-Location ..
         continue
     }
+    if ($os -eq "windows") { Remove-Item rsrc.syso -ErrorAction SilentlyContinue }
     Set-Location ..
 
     # Package

@@ -23,17 +23,31 @@ class Listenrelay < Formula
     pkgshare.install "listenrelay.lua"
   end
 
+  def post_install
+    return unless OS.mac?
+
+    vlc_ext_dir = File.expand_path("~/Library/Application Support/org.videolan.vlc/lua/extensions/")
+    FileUtils.mkdir_p(vlc_ext_dir)
+    
+    begin
+      FileUtils.ln_sf(opt_pkgshare/"listenrelay.lua", vlc_ext_dir/"listenrelay.lua")
+      ohai "Successfully symlinked VLC extension to #{vlc_ext_dir}"
+    rescue
+      opoo "Could not symlink VLC extension. Please do it manually."
+    end
+  end
+
   def caveats
     <<~EOS
       ListenRelay is now installed!
       
       To complete the setup:
-      1. Install the VLC extension by symlinking it:
-         mkdir -p ~/Library/Application\\ Support/org.videolan.vlc/lua/extensions/
-         ln -s #{opt_pkgshare}/listenrelay.lua ~/Library/Application\\ Support/org.videolan.vlc/lua/extensions/
-      
-      2. Start the background service:
+      1. Start the background service:
          listenrelay &
+      
+      2. The VLC extension should have been linked automatically. 
+         If not, you can link it manually:
+         ln -s #{opt_pkgshare}/listenrelay.lua ~/Library/Application\\ Support/org.videolan.vlc/lua/extensions/
     EOS
   end
 end

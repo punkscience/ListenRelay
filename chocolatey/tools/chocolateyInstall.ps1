@@ -21,6 +21,37 @@ $shortcutPath = Join-Path $env:ProgramData "Microsoft\Windows\Start Menu\Program
 Install-ChocolateyShortcut -shortcutFilePath $shortcutPath -targetPath "$toolsDir\ListenRelay.exe" -iconLocation "$toolsDir\icon.ico"
 
 Write-Warning "ListenRelay installed!"
+
 Write-Warning "A shortcut has been added to your Start Menu."
-Write-Warning "To install the VLC extension, copy '$toolsDir\listenrelay.lua' to your VLC extensions folder:"
-Write-Warning "  %APPDATA%\vlc\lua\extensions\"
+
+
+
+# Attempt to automate VLC extension installation
+
+$vlcExtensionDir = Join-Path $env:APPDATA "vlc\lua\extensions"
+
+$luaSource = Join-Path $toolsDir "listenrelay.lua"
+
+
+
+try {
+
+    if (-not (Test-Path $vlcExtensionDir)) {
+
+        New-Item -Path $vlcExtensionDir -ItemType Directory -Force | Out-Null
+
+    }
+
+    Copy-Item -Path $luaSource -Destination $vlcExtensionDir -Force
+
+    Write-Host "Successfully installed VLC extension to: $vlcExtensionDir" -ForegroundColor Green
+
+} catch {
+
+    Write-Warning "Could not automatically install VLC extension."
+
+    Write-Warning "Please manualy copy '$luaSource' to:"
+
+    Write-Warning "  $vlcExtensionDir"
+
+}

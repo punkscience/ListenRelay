@@ -4,7 +4,7 @@
     <id>listenrelay</id>
     <version>1.0.0</version>
     <title>ListenRelay</title>
-    <authors>Darryl G. Wright</authors>
+    <authors>Punk Science Studios Inc.</authors>
     <projectUrl>https://github.com/punkscience/ListenRelay</projectUrl>
     <tags>listenrelay vlc listenbrainz nostr music</tags>
     <summary>Bridge between VLC and Listenbrainz with Nostr support</summary>

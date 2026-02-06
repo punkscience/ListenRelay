@@ -5,8 +5,8 @@ function descriptor()
     return {
         title = "ListenRelay",
         version = "1.0",
-        author = "Darryl Wright",
-        url = "https://github.com/punkscience/listenrelay",
+        author = "Punk Science Studios Inc.",
+        url = "https://github.com/punkscience/ListenRelay",
         shortdesc = "Submit listens to Listenbrainz via ListenRelay",
         description = "Sends track metadata to a local Go service which handles the Listenbrainz submission.",
         capabilities = {"input-listener", "playing-listener", "meta-listener"}

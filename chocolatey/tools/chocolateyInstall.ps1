@@ -1,15 +1,15 @@
 $ErrorActionPreference = 'Stop'
 $packageName = 'listenrelay'
-$toolsDir    = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
-$url64       = 'https://github.com/punkscience/ListenRelay/releases/download/v1.0.0/listenrelay-windows-amd64.zip'
-$exePath     = Join-Path $toolsDir "ListenRelay.exe"
+$toolsDir = "$(Split-Path -Parent $MyInvocation.MyCommand.Definition)"
+$url64 = 'https://github.com/punkscience/ListenRelay/releases/download/v1.0.0/listenrelay-windows-amd64.zip'
+$exePath = Join-Path $toolsDir "ListenRelay.exe"
 
 $packageArgs = @{
-  packageName   = $packageName
-  unzipLocation = $toolsDir
-  url64bit      = $url64
-  checksum64    = '024dc2d74d00287fe91ba4e94afdfe1a2440e8e5b74862099f720e19065ab5f7'
-  checksumType64 = 'sha256'
+    packageName    = $packageName
+    unzipLocation  = $toolsDir
+    url64bit       = $url64
+    checksum64     = '024dc2d74d00287fe91ba4e94afdfe1a2440e8e5b74862099f720e19065ab5f7'
+    checksumType64 = 'sha256'
 }
 
 Install-ChocolateyZipPackage @packageArgs
@@ -28,7 +28,7 @@ if (-not (Test-Path $registryPath)) {
 }
 Set-ItemProperty -Path $registryPath -Name "DisplayName" -Value "ListenRelay"
 Set-ItemProperty -Path $registryPath -Name "DisplayVersion" -Value "1.0.0"
-Set-ItemProperty -Path $registryPath -Name "Publisher" -Value "Darryl G. Wright"
+Set-ItemProperty -Path $registryPath -Name "Publisher" -Value "Punk Science Studios Inc."
 Set-ItemProperty -Path $registryPath -Name "DisplayIcon" -Value "$exePath,0"
 Set-ItemProperty -Path $registryPath -Name "UninstallString" -Value "choco uninstall listenrelay -y"
 Set-ItemProperty -Path $registryPath -Name "QuietUninstallString" -Value "choco uninstall listenrelay -y"
@@ -51,7 +51,8 @@ try {
     }
     Copy-Item -Path $luaSource -Destination $vlcExtensionDir -Force
     Write-Host "Successfully installed VLC extension to: $vlcExtensionDir" -ForegroundColor Green
-} catch {
+}
+catch {
     Write-Warning "Could not automatically install VLC extension."
 }
 

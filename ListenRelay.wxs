@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="*" Name="ListenRelay" Language="1033" Version="1.0.0.0" Manufacturer="Darryl G. Wright" UpgradeCode="e1a2b3c4-d5e6-4f7g-8h9i-j0k1l2m3n4o5">
+    <Product Id="*" Name="ListenRelay" Language="1033" Version="1.0.0.0" Manufacturer="Punk Science Studios Inc." UpgradeCode="e1a2b3c4-d5e6-4f7g-8h9i-j0k1l2m3n4o5">
         <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
         <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />

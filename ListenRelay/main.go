@@ -8,6 +8,7 @@ import (
 func main() {
 	// 0. Parse Flags
 	debug := flag.Bool("debug", false, "Enable debug mode with console output")
+	minimized := flag.Bool("minimized", false, "Start minimized to system tray")
 	flag.Parse()
 
 	if *debug {
@@ -26,7 +27,7 @@ func main() {
 
 	// 3. Run UI (GUI on Windows, CLI on others)
 	if currentUI != nil {
-		currentUI.Run(cfg)
+		currentUI.Run(cfg, *minimized)
 	} else {
 		log.Fatal("No UI implementation found for this platform.")
 	}

@@ -12,7 +12,7 @@ import (
 
 type PosixUI struct{}
 
-func (ui *PosixUI) Run(cfg *Config) {
+func (ui *PosixUI) Run(cfg *Config, minimized bool) {
 	log.Println("ListenRelay running in headless mode.")
 	log.Println("Press Ctrl+C to exit.")
 

@@ -22,7 +22,7 @@ type WindowsUI struct {
 	currentURI    string
 }
 
-func (ui *WindowsUI) Run(cfg *Config) {
+func (ui *WindowsUI) Run(cfg *Config, minimized bool) {
 	var tokenParams, nostrKeyParams, nostrTemplateParams *walk.LineEdit
 	var statusLabel *walk.Label
 
@@ -32,7 +32,7 @@ func (ui *WindowsUI) Run(cfg *Config) {
 		MinSize:  Size{Width: 450, Height: 400},
 		Size:     Size{Width: 450, Height: 400},
 		Layout:   VBox{},
-		Visible:  false,
+		Visible:  !minimized,
 		Children: []Widget{
 			Label{Text: "Listenbrainz User Token:"},
 			LineEdit{
@@ -148,7 +148,7 @@ func (ui *WindowsUI) Run(cfg *Config) {
 
 	ui.ni.SetVisible(true)
 
-	if cfg.UserToken == "" {
+	if cfg.UserToken == "" && !minimized {
 		ui.mw.Show()
 	}
 

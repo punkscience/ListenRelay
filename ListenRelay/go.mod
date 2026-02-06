@@ -3,6 +3,7 @@ module listenrelay
 go 1.24.4
 
 require (
+	github.com/dhowden/tag v0.0.0-20240417053706-3d75831295e8
 	github.com/lxn/walk v0.0.0-20210112085537-c389da54e794
 	github.com/nbd-wtf/go-nostr v0.52.3
 )

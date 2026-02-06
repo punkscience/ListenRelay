@@ -79,8 +79,9 @@ function process_metadata()
     local title = metas["title"]
     local album = metas["album"]
     local duration = item:duration()
+    local uri = item:uri()
 
-    vlc.msg.info("[ListenRelay] Debug: Found Metadata - Artist: '" .. tostring(artist) .. "', Title: '" .. tostring(title) .. "'")
+    vlc.msg.info("[ListenRelay] Debug: Found Metadata - Artist: '" .. tostring(artist) .. "', Title: '" .. tostring(title) .. "', URI: '" .. tostring(uri) .. "'")
 
     if not artist or not title then
         vlc.msg.info("[ListenRelay] Debug: Missing artist or title, ignoring.")
@@ -93,13 +94,13 @@ function process_metadata()
         last_artist = artist
         last_title = title
         vlc.msg.info("[ListenRelay] Detect: " .. artist .. " - " .. title)
-        send_scrobble(artist, title, album, duration)
+        send_scrobble(artist, title, album, duration, uri)
     else
         vlc.msg.info("[ListenRelay] Debug: Duplicate track ignored.")
     end
 end
 
-function send_scrobble(artist, title, album, duration)
+function send_scrobble(artist, title, album, duration, uri)
     -- JSON Escape function
     local function json_escape(str)
         if not str then return "" end
@@ -111,11 +112,12 @@ function send_scrobble(artist, title, album, duration)
     end
 
     local json_body = string.format(
-        '{"artist": "%s", "track": "%s", "album": "%s", "length": %d}',
+        '{"artist": "%s", "track": "%s", "album": "%s", "length": %d, "uri": "%s"}',
         json_escape(artist),
         json_escape(title),
         json_escape(album or ""),
-        math.floor(duration or 0)
+        math.floor(duration or 0),
+        json_escape(uri or "")
     )
 
     local host = "127.0.0.1"

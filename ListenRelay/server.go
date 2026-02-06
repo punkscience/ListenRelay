@@ -14,6 +14,7 @@ type ScrobbleRequest struct {
 	Track  string `json:"track"`
 	Album  string `json:"album"`
 	Length int    `json:"length"` // Duration in seconds
+	URI    string `json:"uri"`    // File path/URI
 }
 
 type ListenPayload struct {
@@ -33,7 +34,7 @@ type TrackMetadata struct {
 }
 
 var currentToken string
-var OnTrackReceived func(artist, track, album string)
+var OnTrackReceived func(artist, track, album, uri string)
 
 func UpdateToken(token string) {
 	currentToken = token
@@ -73,7 +74,7 @@ func handleScrobble(w http.ResponseWriter, r *http.Request) {
 
 	// Update GUI if callback is registered
 	if OnTrackReceived != nil {
-		OnTrackReceived(req.Artist, req.Track, req.Album)
+		OnTrackReceived(req.Artist, req.Track, req.Album, req.URI)
 	}
 
 	// Basic Validation logic to match Listenbrainz rules (can be expanded)

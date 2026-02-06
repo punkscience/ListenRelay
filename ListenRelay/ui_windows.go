@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"syscall"
 
 	"github.com/lxn/walk"
@@ -82,14 +83,23 @@ func (ui *WindowsUI) Run(cfg *Config) {
 	}
 	defer ui.ni.Dispose()
 
-	// Load icon from resource (ID 1 is standard for rsrc)
-	if icon, err := walk.NewIconFromResourceId(1); err == nil {
-		ui.ni.SetIcon(icon)
-	} else {
-		// Fallback to Shell32 icon
-		if icon, err := walk.NewIconFromSysDLL("shell32.dll", 1); err == nil {
-			ui.ni.SetIcon(icon)
+	// Robust icon loading
+	var icon *walk.Icon
+	// 1. Try embedded resource
+	if icon, err = walk.NewIconFromResourceId(1); err != nil {
+		// 2. Try file relative to executable (helps when run via shim)
+		if exePath, err := os.Executable(); err == nil {
+			icon, _ = walk.NewIconFromFile(filepath.Join(filepath.Dir(exePath), "icon.ico"))
 		}
+	}
+	
+	// 3. Fallback to system icon if still null
+	if icon == nil {
+		icon, _ = walk.NewIconFromSysDLL("shell32.dll", 167) // Music icon
+	}
+
+	if icon != nil {
+		ui.ni.SetIcon(icon)
 	}
 
 	ui.ni.SetToolTip("ListenRelay: Idle")

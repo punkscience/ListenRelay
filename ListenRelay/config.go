@@ -7,7 +7,8 @@ import (
 )
 
 type Config struct {
-	UserToken string `json:"user_token"`
+	UserToken       string `json:"user_token"`
+	NostrPrivateKey string `json:"nostr_private_key"`
 }
 
 func GetConfigPath() (string, error) {

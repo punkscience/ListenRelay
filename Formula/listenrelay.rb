@@ -9,13 +9,13 @@ class Listenrelay < Formula
       sha256 "3022b95cbc859d38f7d51b9038ce3aa4f186af4d236787779d04a35c9f141b35"
     else
       url "https://github.com/punkscience/listenrelay/releases/download/v1.0.0/listenrelay-macos-arm64.tar.gz"
-      sha256 "6141e84307280aa206d1cc65a9e90e4812846fbb177c446a111527bb7a24c920"
+      sha256 "0fda4e5afdb4be4cf16483ae5977b57ae577d2ca9b77ff48bb215a558426119f"
     end
   end
 
   on_linux do
     url "https://github.com/punkscience/listenrelay/releases/download/v1.0.0/listenrelay-linux-amd64.tar.gz"
-    sha256 "233941cc34ca3abc5e37cdd670d1f65b98a96cba4f648c1ba3753f1848a01117"
+    sha256 "8cb6dde615e9e046d8b16e120beb56473b0ec33a7a3c0aa68f15bcc203ceb148"
   end
 
   def install

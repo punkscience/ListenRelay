@@ -7,7 +7,7 @@ $packageArgs = @{
   packageName   = $packageName
   unzipLocation = $toolsDir
   url64bit      = $url64
-  checksum64    = '13b8889609418a5c60183e4111a754656b350ed8402d1ada062c479e2aa6b59f'
+  checksum64    = '8c2e2ae4fbe9a0c6257e6fc8708b838fd52f6310295881d2c0aae097010c113b'
   checksumType64 = 'sha256'
 }
 
@@ -16,6 +16,11 @@ Install-ChocolateyZipPackage @packageArgs
 # Create a shim for the executable
 Install-BinFile -Name 'ListenRelay' -Path "$toolsDir\ListenRelay.exe"
 
+# Create a Start Menu shortcut
+$shortcutPath = Join-Path $env:ProgramData "Microsoft\Windows\Start Menu\Programs\ListenRelay.lnk"
+Install-ChocolateyShortcut -shortcutFilePath $shortcutPath -targetPath "$toolsDir\ListenRelay.exe" -iconLocation "$toolsDir\icon.ico"
+
 Write-Warning "ListenRelay installed!"
+Write-Warning "A shortcut has been added to your Start Menu."
 Write-Warning "To install the VLC extension, copy '$toolsDir\listenrelay.lua' to your VLC extensions folder:"
-Write-Warning "  %APPDATA%\vlc\lua\extensions"
+Write-Warning "  %APPDATA%\vlc\lua\extensions\"

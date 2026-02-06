@@ -15,11 +15,12 @@ foreach ($t in $targets) {
     $os = $t.os
     $arch = $t.arch
     $ext = $t.ext
-    $name = "listenrelay"
+    # Use PascalCase for Windows, lowercase for others
+    $name = if ($os -eq "windows") { "ListenRelay" } else { "listenrelay" }
     $outputName = "$name$ext"
     
     $platformName = if ($os -eq "darwin") { "macos" } else { $os }
-    $archiveName = "$name-$platformName-$arch"
+    $archiveName = "$($name.ToLower())-$platformName-$arch"
 
     Write-Host "Building for $os/$arch..." -ForegroundColor Cyan
     
@@ -48,25 +49,23 @@ foreach ($t in $targets) {
         tar -czf "$archiveName.tar.gz" $outputName "../listenrelay.lua"
         if (Test-Path $outputName) { Remove-Item $outputName }
         
-        # Fallback for Get-FileHash if it fails
         try {
             $hash = (Get-FileHash "$archiveName.tar.gz" -Algorithm SHA256).Hash.ToLower()
         } catch {
-            # Use certutil as fallback on Windows
             $certOut = certutil -hashfile "$archiveName.tar.gz" SHA256
             $hash = $certOut[1].Replace(" ", "").ToLower()
         }
         Write-Host "SHA256 ($archiveName.tar.gz): $hash" -ForegroundColor Yellow
     } else {
-        # Check if icon exists, fallback if not
-        $iconPath = "../ListenRelay/icon.ico"
         $zipFiles = @($outputName, "../listenrelay.lua")
-        if (Test-Path $iconPath) { $zipFiles += $iconPath }
+        
+        # Add Windows specific assets
+        if (Test-Path "../ListenRelay/icon.ico") { $zipFiles += "../ListenRelay/icon.ico" }
+        if (Test-Path "../ListenRelay/ListenRelay.exe.manifest") { $zipFiles += "../ListenRelay/ListenRelay.exe.manifest" }
         
         Compress-Archive -Path $zipFiles -DestinationPath "$archiveName.zip" -Force
         if (Test-Path $outputName) { Remove-Item $outputName }
         
-        # Calculate hash for ZIP
         try {
             $hash = (Get-FileHash "$archiveName.zip" -Algorithm SHA256).Hash.ToLower()
         } catch {

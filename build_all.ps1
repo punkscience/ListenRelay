@@ -65,6 +65,15 @@ foreach ($t in $targets) {
         
         Compress-Archive -Path $zipFiles -DestinationPath "$archiveName.zip" -Force
         if (Test-Path $outputName) { Remove-Item $outputName }
+        
+        # Calculate hash for ZIP
+        try {
+            $hash = (Get-FileHash "$archiveName.zip" -Algorithm SHA256).Hash.ToLower()
+        } catch {
+            $certOut = certutil -hashfile "$archiveName.zip" SHA256
+            $hash = $certOut[1].Replace(" ", "").ToLower()
+        }
+        Write-Host "SHA256 ($archiveName.zip): $hash" -ForegroundColor Yellow
     }
     Set-Location ..
 }

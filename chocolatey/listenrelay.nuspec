@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>listenrelay</id>
+    <version>1.0.0</version>
+    <title>ListenRelay</title>
+    <authors>Darryl G. Wright</authors>
+    <projectUrl>https://github.com/punkscience/ListenRelay</projectUrl>
+    <tags>listenrelay vlc listenbrainz nostr music</tags>
+    <summary>Bridge between VLC and Listenbrainz with Nostr support</summary>
+    <description>ListenRelay connects VLC Media Player to Listenbrainz using a lightweight Lua extension and a robust background Go application. It also supports publishing "Now Playing" updates to Nostr.</description>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>

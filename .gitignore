@@ -1,0 +1,18 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go
+ListenRelay/listenrelay.exe
+ListenRelay/listenrelay.exe~
+ListenRelay/build_log.txt
+
+# Configs (User data)
+config.json
+
+# OS specific
+.DS_Store
+Thumbs.db
